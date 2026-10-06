@@ -29,6 +29,7 @@ class Migrate extends BaseController
         // 4. Build the users table structure required for authentication
         $db->query("CREATE TABLE `users` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
+          `full_name` varchar(200) NOT NULL,
           `username` varchar(50) NOT NULL,
           `email` varchar(100) NOT NULL,
           `password` varchar(255) NOT NULL,
