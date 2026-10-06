@@ -2,18 +2,26 @@
 
 namespace Config;
 
-$routes = Services::routes();
+// CRITICAL FIX: Explicitly reference the fully qualified namespace for the Services class
+$routes = \Config\Services::routes();
 
-if (file_exists(APPPATH . 'Config/Routes.php')) {
-    require APPPATH . 'Config/Routes.php';
-}
-
+/**
+ * --------------------------------------------------------------------
+ * Router Setup
+ * --------------------------------------------------------------------
+ */
 $routes->setDefaultNamespace('App\Controllers');
 $routes->setDefaultController('Home');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
 $routes->setAutoRoute(false);
+
+/**
+ * --------------------------------------------------------------------
+ * Route Definitions
+ * --------------------------------------------------------------------
+ */
 
 // --- Public Access Routes ---
 $routes->get('/', 'Home::index');
