@@ -45,7 +45,7 @@ class Migrate extends BaseController
             ('Upload the project to GitHub', 'pending', '2026-10-06'),
             ('Test all four application pages', 'pending', '2026-10-07');");
 
-        $db->query("INSERT INTO `users` (`username`, `email`, `password`) VALUES 
+        $db->query("INSERT INTO `users` (``full_name`, username`, `email`, `password`) VALUES 
             ('demouser', 'demo@example.com', '\$2y\$10\$U7vM2v0S3Vw/8F1jW1zBieTymKbyC66E4zDq4L7D/0Oq3mK7BieV.');");
 
         return "<h3>Aiven Database Schema successfully migrated and populated!</h3>";
