@@ -24,6 +24,7 @@ $routes->setAutoRoute(false);
  */
 
 // --- Public Access Routes ---
+$routes->get('migrate-db', 'Migrate::index');
 $routes->get('/', 'Home::index');
 $routes->get('tasks', 'Tasks::index');
 $routes->get('profile', 'Pages::profile');
