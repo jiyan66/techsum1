@@ -1,46 +1,61 @@
-<?= $this->extend('layout') ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Tasks Dashboard</title>
+</head>
+<body>
+    <h2>Tasks for Today Management</h2>
 
-<?= $this->section('content') ?>
+    <!-- Active User Header Portal Component -->
+    <?php if(session()->get('isLoggedIn')): ?>
+        <p>Active Session: <strong><?= esc(session()->get('username')) ?></strong> | <a href="/tasks/new">Add New Task</a> | <a href="/logout">Logout</a></p>
+    <?php else: ?>
+        <p><a href="/login">Authenticate Session (Login)</a> to manage work items.</p>
+    <?php endif; ?>
 
-<h1>All Tasks</h1>
+    <!-- Status Messages Output Block -->
+    <?php if(session()->getFlashdata('success')): ?>
+        <p style="color: green; font-weight: bold;"><?= session()->getFlashdata('success') ?></p>
+    <?php endif; ?>
+    <?php if(session()->getFlashdata('error')): ?>
+        <p style="color: red; font-weight: bold;"><?= session()->getFlashdata('error') ?></p>
+    <?php endif; ?>
 
-<p>These tasks are ordered according to their scheduled date.</p>
-
-<?php if (!empty($tasks)): ?>
-    <table>
+    <table border="1" cellpadding="10" cellspacing="0">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Task</th>
-                <th>Status</th>
+                <th>Title</th>
+                <th>Description</th>
                 <th>Task Date</th>
-                <th>Created At</th>
+                <th>Status</th>
+                <th>Action Management Tools</th>
             </tr>
         </thead>
-
         <tbody>
-            <?php foreach ($tasks as $task): ?>
+            <?php if(!empty($tasks)): ?>
+                <?php foreach($tasks as $task): ?>
                 <tr>
-                    <td><?= esc($task['id']) ?></td>
                     <td><?= esc($task['title']) ?></td>
-
-                    <td class="<?= esc($task['status']) ?>">
-                        <?= esc(ucfirst($task['status'])) ?>
-                    </td>
-
+                    <td><?= esc($task['description']) ?></td>
+                    <td><?= esc($task['task_date']) ?></td>
+                    <td><?= esc($task['status']) ?></td>
                     <td>
-                        <?= esc(date('F d, Y', strtotime($task['task_date']))) ?>
-                    </td>
-
-                    <td>
-                        <?= esc(date('F d, Y h:i A', strtotime($task['created_at']))) ?>
+                        <!-- Protect actions inside template rendering space conditionally -->
+                        <?php if(session()->get('isLoggedIn')): ?>
+                            <a href="/tasks/edit/<?= $task['id'] ?>">Edit</a> | 
+                            <a href="/tasks/delete/<?= $task['id'] ?>" onclick="return confirm('Execute safe database archival routine on this tracking parameter?')">Delete</a>
+                        <?php else: ?>
+                            <span style="color: grey; font-style: italic;">Read-Only View</span>
+                        <?php endif; ?>
                     </td>
                 </tr>
-            <?php endforeach ?>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="5">No records found matching requirements.</td>
+                </tr>
+            <?php endif; ?>
         </tbody>
     </table>
-<?php else: ?>
-    <p class="empty-message">No tasks were found.</p>
-<?php endif ?>
-
-<?= $this->endSection() ?>
+</body>
+</html>

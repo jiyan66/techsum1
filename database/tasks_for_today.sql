@@ -37,3 +37,10 @@ INSERT INTO `tasks` (`title`, `status`, `task_date`, `created_at`) VALUES
 
 INSERT INTO `users` (`username`, `full_name`, `email`, `created_at`) VALUES
 ('Gian', 'Joseph Gian Carlo Mistica', 'gianmistica@gmail.com', NOW());
+
+ALTER TABLE users ADD COLUMN password VARCHAR(255) NOT NULL AFTER email;
+ALTER TABLE tasks ADD COLUMN is_archived TINYINT(1) DEFAULT 0 AFTER status;
+
+DELETE FROM users WHERE username = 'demouser';
+INSERT INTO users (username, email, password) 
+VALUES ('demouser', 'demo@example.com', '$2y$10$U7vM2v0S3Vw/8F1jW1zBieTymKbyC66E4zDq4L7D/0Oq3mK7BieV.');
