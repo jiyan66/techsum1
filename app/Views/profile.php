@@ -17,7 +17,7 @@
 
     <div class="profile-item">
         <strong>Full Name:</strong>
-        <?= esc($user['full_name']) ?>
+        <?= esc($user['full_name'] ?? 'No Name Provided') ?>
     </div>
 
     <div class="profile-item">
